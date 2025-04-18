@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 // src/index.ts
 import { createLogger } from './core/infrastructure/logging/console-logger.js';
 import { config } from './core/infrastructure/config/config.js';
@@ -10,6 +9,8 @@ import { SseTransportFactory } from './core/infrastructure/transport/sse-transpo
 import { StdioTransportFactory } from './core/infrastructure/transport/stdio-transport.adapter.js';
 import { ExpressApp } from './core/presentation/api/app.js';
 import { HttpServer } from './core/presentation/api/server.js';
+
+require('dotenv').config()
 
 /**
  * Main application entry point
