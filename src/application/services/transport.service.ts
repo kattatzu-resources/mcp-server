@@ -1,25 +1,49 @@
 import { Response } from "express";
 import { ILogger } from "../../domain/interfaces/logger.interface.js";
 import { ITransport } from "../../domain/interfaces/transport.interface.js";
+import { ITransportFactory } from "../../infrastructure/transport/transport-factory.js";
 
 export class TransportService {
     private transports: Record<string, ITransport> = {};
     private readonly logger: ILogger;
-    private readonly transportFactory: (res: Response) => Promise<ITransport>;
+    private readonly transportFactories: {
+        sse?: ITransportFactory;
+        stdio?: ITransportFactory;
+    };
     private readonly onTransportConnected: (transport: ITransport) => Promise<void>;
 
     constructor(
         logger: ILogger,
-        transportFactory: (res: Response) => Promise<ITransport>,
+        transportFactories: {
+            sse?: ITransportFactory;
+            stdio?: ITransportFactory;
+        },
         onTransportConnected: (transport: ITransport) => Promise<void>
     ) {
         this.logger = logger;
-        this.transportFactory = transportFactory;
+        this.transportFactories = transportFactories;
         this.onTransportConnected = onTransportConnected;
     }
 
-    public async createTransport(res: Response): Promise<ITransport> {
-        const transport = await this.transportFactory(res);
+    public async createSseTransport(res: Response): Promise<ITransport> {
+        if (!this.transportFactories.sse) {
+            throw new Error("SSE transport factory not available");
+        }
+
+        const transport = await this.transportFactories.sse.createTransport(res);
+        return this.setupTransport(transport);
+    }
+
+    public async createStdioTransport(): Promise<ITransport> {
+        if (!this.transportFactories.stdio) {
+            throw new Error("STDIO transport factory not available");
+        }
+
+        const transport = await this.transportFactories.stdio.createTransport();
+        return this.setupTransport(transport);
+    }
+
+    private async setupTransport(transport: ITransport): Promise<ITransport> {
         const sessionId = transport.sessionId;
 
         this.transports[sessionId] = transport;
@@ -30,7 +54,20 @@ export class TransportService {
         };
 
         await this.onTransportConnected(transport);
-        await transport.start();
+
+        try {
+            // Some transports (like StdioServerTransport) are automatically started by connect()
+            // Only try to start if not already started
+            await transport.start();
+        } catch (error) {
+            // If the transport is already started, log it but continue
+            if (error instanceof Error && error.message.includes("already started")) {
+                this.logger.debug(`Transport ${sessionId} was already started by connect()`);
+            } else {
+                // Re-throw if it's a different error
+                throw error;
+            }
+        }
 
         this.logger.info(`Created new transport with session ID: ${sessionId}`);
         return transport;

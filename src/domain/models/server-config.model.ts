@@ -1,3 +1,5 @@
+import { TransportsConfig } from "./transport-config.model.js";
+
 export interface ServerConfig {
     server: {
         port: number;
@@ -8,4 +10,5 @@ export interface ServerConfig {
         sse: string;
         messages: string;
     };
+    transports: TransportsConfig;
 }

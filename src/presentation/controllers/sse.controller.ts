@@ -22,7 +22,7 @@ export class SseController {
             res.setHeader("Connection", "keep-alive");
 
             // Create a new transport
-            const transport = await this.transportService.createTransport(res);
+            const transport = await this.transportService.createSseTransport(res);
             this.logger.info(`Established SSE stream with session ID: ${transport.sessionId}`);
         } catch (error) {
             this.logger.error("Error establishing SSE stream:", error);

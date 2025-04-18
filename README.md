@@ -1,6 +1,6 @@
-# MCP SSE Server
+# MCP Server
 
-Un servidor que implementa el Protocolo de Contexto de Modelo (MCP) utilizando Server-Sent Events (SSE) para comunicaciones en tiempo real.
+Un servidor que implementa el Protocolo de Contexto de Modelo (MCP) con soporte para múltiples transportes (SSE y STDIO) para comunicaciones en tiempo real.
 
 ## Características
 
@@ -76,6 +76,26 @@ yarn rebuild
 ```
 
 Por defecto, el servidor se ejecutará en el puerto 3001. Puedes cambiar el puerto configurando la variable de entorno `PORT`.
+
+## Configuración de Transportes
+
+El servidor MCP soporta dos tipos de transportes:
+
+- **SSE (Server-Sent Events)**: Para comunicación a través de HTTP
+- **STDIO**: Para comunicación a través de entrada/salida estándar
+
+Por defecto, ambos transportes están habilitados. Puede configurar qué transportes desea utilizar a través de variables de entorno:
+
+```bash
+# Habilitar solo SSE
+ENABLE_STDIO=false yarn start
+
+# Habilitar solo STDIO
+ENABLE_SSE=false yarn start
+
+# Habilitar ambos (comportamiento por defecto)
+ENABLE_SSE=true ENABLE_STDIO=true yarn start
+```
 
 ## Endpoints
 

@@ -30,14 +30,21 @@ export class ExpressApp {
     }
 
     private setupRoutes(): void {
-        // Create SSE routes
-        const sseRoutes = createSseRoutes(this.transportService, this.logger);
+        // Only set up SSE routes if SSE transport is enabled
+        if (this.config.transports.sse.enabled) {
+            this.logger.info("Setting up SSE routes");
 
-        // Routes
-        this.app.use(this.config.endpoints.sse, sseRoutes);
+            // Create SSE routes
+            const sseRoutes = createSseRoutes(this.transportService, this.logger);
 
-        // Also mount the messages endpoint at the root level for backward compatibility
-        this.app.use(this.config.endpoints.messages, sseRoutes);
+            // Routes
+            this.app.use(this.config.endpoints.sse, sseRoutes);
+
+            // Also mount the messages endpoint at the root level for backward compatibility
+            this.app.use(this.config.endpoints.messages, sseRoutes);
+        } else {
+            this.logger.info("SSE transport is disabled, skipping SSE routes setup");
+        }
     }
 
     private setupErrorHandling(): void {

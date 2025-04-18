@@ -11,6 +11,7 @@ import { IResource } from "../../domain/interfaces/resource.interface.js";
 import { IPrompt } from "../../domain/interfaces/prompt.interface.js";
 import { Response } from "express";
 import { ITransport } from "../../domain/interfaces/transport.interface.js";
+import { ITransportFactory } from "../../infrastructure/transport/transport-factory.js";
 
 export class ServerFactory {
     private readonly config: ServerConfig;
@@ -18,7 +19,10 @@ export class ServerFactory {
     private readonly tools: ITool[];
     private readonly resources: IResource[];
     private readonly prompts: IPrompt[];
-    private readonly transportFactory: (res: Response) => Promise<ITransport>;
+    private readonly transportFactories: {
+        sse?: ITransportFactory;
+        stdio?: ITransportFactory;
+    };
 
     constructor(
         config: ServerConfig,
@@ -26,14 +30,17 @@ export class ServerFactory {
         tools: ITool[],
         resources: IResource[],
         prompts: IPrompt[],
-        transportFactory: (res: Response) => Promise<ITransport>
+        transportFactories: {
+            sse?: ITransportFactory;
+            stdio?: ITransportFactory;
+        }
     ) {
         this.config = config;
         this.logger = logger;
         this.tools = tools;
         this.resources = resources;
         this.prompts = prompts;
-        this.transportFactory = transportFactory;
+        this.transportFactories = transportFactories;
     }
 
     public createServer(): {
@@ -66,10 +73,10 @@ export class ServerFactory {
             this.logger
         );
 
-        // Create transport service
+        // Create transport service with multiple factories
         const transportService = new TransportService(
             this.logger,
-            this.transportFactory,
+            this.transportFactories,
             (transport) => serverUseCase.connectTransport(transport)
         );
 

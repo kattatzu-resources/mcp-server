@@ -3,12 +3,11 @@ import { Response } from "express";
 import { ITransport } from "../../domain/interfaces/transport.interface.js";
 import { ILogger } from "../../domain/interfaces/logger.interface.js";
 import { config } from "../config/config.js";
+import { TransportFactory } from "./transport-factory.js";
 
-export class SseTransportFactory {
-    private readonly logger: ILogger;
-
+export class SseTransportFactory extends TransportFactory {
     constructor(logger: ILogger) {
-        this.logger = logger;
+        super(logger);
     }
 
     public async createTransport(res: Response): Promise<ITransport> {
