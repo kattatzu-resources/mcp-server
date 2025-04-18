@@ -13,6 +13,21 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - *No unreleased fixes yet*
 
+## [1.0.0] - 2025-04-18
+
+### Added
+- ESLint and Prettier configuration files for code quality and formatting
+
+### Changed
+- Refactor: Implement clean architecture structure (d72431d)
+  - Reorganized project structure following clean architecture principles
+  - Moved application code into core/application directory
+  - Moved domain interfaces and models into core/domain directory
+  - Moved infrastructure components into core/infrastructure directory
+  - Moved presentation layer into core/presentation directory
+  - Moved prompts, resources and tools to top-level directories
+  - Updated dependencies in package.json and yarn.lock
+
 ## [0.1.0] - 2025-04-18
 
 ### Added
