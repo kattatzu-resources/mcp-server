@@ -28,7 +28,7 @@ export class SumTool implements ITool {
           content: [
             {
               type: 'text',
-              text: `La suma de ${number1} + ${number2} = ${sum}`,
+              text: `${number1} + ${number2} = ${sum}`,
             },
           ],
         };
