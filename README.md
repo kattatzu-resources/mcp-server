@@ -1,26 +1,30 @@
 # MCP Server
 
-A server that implements the Model Context Protocol (MCP) with support for multiple transports (SSE and STDIO) for real-time communications.
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+![Node.js: ≥18](https://img.shields.io/badge/Node.js-≥18-green.svg)
 
-## Features
+A robust server implementation of the Model Context Protocol (MCP) that supports multiple transport methods (SSE and STDIO) for real-time communication with AI models.
 
-- Complete implementation of the Model Context Protocol (MCP)
-- Real-time communication with SSE (Server-Sent Events)
-- Clean architecture with SOLID principles
-- Extensible tools, resources, and prompts
-- Comprehensive logging and error handling
-- Multiple transport support (SSE and STDIO)
+## 🚀 Features
 
-## Architecture
+- **Full MCP Implementation**: Complete and standard-compliant implementation of the Model Context Protocol
+- **Multiple Transports**: Seamless communication via SSE (Server-Sent Events) and STDIO
+- **Robust Architecture**: Built on Clean Architecture and SOLID principles for maintainability and extensibility
+- **Powerful Tooling**: Easily extensible tools, resources, and prompts
+- **Developer-Friendly**: Comprehensive logging, error handling, and testing support
 
-The project follows Clean Architecture and SOLID principles:
+## 🏗️ Architecture
 
-- **Domain Layer**: Interfaces and domain models
-- **Application Layer**: Use cases and services
-- **Infrastructure Layer**: Concrete implementations (logging, tools, etc.)
-- **Presentation Layer**: API and HTTP controllers
+The project follows a clean, layered architecture adhering to SOLID principles:
 
-### Architecture Diagram
+| Layer | Responsibility | Components |
+|-------|----------------|------------|
+| **Domain** | Core business logic | Interfaces, Models, Entities |
+| **Application** | Use cases, application flow | Services, Use Cases, DTOs |
+| **Infrastructure** | Technical concerns | Implementations, Adapters, External services |
+| **Presentation** | User interface | API Controllers, HTTP endpoints |
+
+### Architectural Diagram
 
 ```
 ┌─────────────────────┐      ┌─────────────────────┐
@@ -39,20 +43,12 @@ The project follows Clean Architecture and SOLID principles:
 └─────────────────────┘      └─────────────────────┘
 ```
 
-## SOLID Principles Applied
-
-- **S (Single Responsibility)**: Each class has a single responsibility
-- **O (Open/Closed)**: Functionality is extensible without modifying existing code
-- **L (Liskov Substitution)**: Derived types are completely substitutable for their base types
-- **I (Interface Segregation)**: Interfaces are specific to each client
-- **D (Dependency Inversion)**: Depends on abstractions, not concrete implementations
-
-## Requirements
+## 💻 Requirements
 
 - Node.js 18 or higher
-- Yarn or npm
+- Yarn or npm package manager
 
-## Installation
+## 📦 Installation
 
 ```bash
 # Clone the repository
@@ -66,49 +62,56 @@ yarn install
 yarn build
 ```
 
-## Running
+## 🚀 Running the Server
 
 ```bash
 # Start the server
 yarn start
 
-# Or using custom scripts
+# Build and start in one command (for development)
 yarn rebuild
 ```
 
-By default, the server will run on port 3001. You can change the port by configuring the `PORT` environment variable.
+By default, the server runs on port 3001. You can configure this using the `PORT` environment variable.
 
-## Transport Configuration
+## 🔌 Transport Options
 
-The MCP server supports two types of transports:
+The MCP server supports two transport methods:
 
-- **SSE (Server-Sent Events)**: For communication over HTTP
-- **STDIO**: For communication through standard input/output
+| Transport | Description | Use Case |
+|-----------|-------------|----------|
+| **SSE** | Server-Sent Events over HTTP | Web applications, browser clients |
+| **STDIO** | Standard input/output streams | CLI tools, local applications |
 
-By default, both transports are enabled. You can configure which transports you want to use through environment variables:
+## 🛣️ API Endpoints
 
+- **SSE**: `/sse` - Establish SSE connections for real-time communication
+- **Messages**: `/messages` - Send JSON-RPC messages to the server
+
+## 🧪 Testing
+
+Use the official MCP Inspector tool to test your server implementation:
+
+
+1. Build and start your MCP Server
 ```bash
-# Enable only SSE
-ENABLE_STDIO=false yarn start
-
-# Enable only STDIO
-ENABLE_SSE=false yarn start
-
-# Enable both (default behavior)
-ENABLE_SSE=true ENABLE_STDIO=true yarn start
+yarn build
+yarn rebuild  # if using SSE transport (builds & starts)
+# OR
+yarn start    # manual start
 ```
 
-## Endpoints
+2. Run the inspector against your server
+```bash
+npx @modelcontextprotocol/inspector node build/index.js
+```
 
-- **SSE**: `/sse` - Endpoint for establishing SSE connections
-- **Messages**: `/messages` - Endpoint for sending JSON-RPC messages
+3. Access to Inspecto UI
+http://127.0.0.1:6274 🚀
 
-## Extension
+## 🧩 Extending Functionality
 
 ### Adding a New Tool
-
-1. Create a tool class that implements the `ITool` interface
-2. Add the tool to the list in `tools/index.ts`
 
 ```typescript
 // tools/custom/my-tool.ts
@@ -152,8 +155,6 @@ export class MyTool implements ITool {
 
 ### Adding a New Resource
 
-Resources provide static or dynamic data that can be accessed by the client:
-
 ```typescript
 // resources/custom/my-resource.ts
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -188,8 +189,6 @@ export class MyResource implements IResource {
 ```
 
 ### Adding a New Prompt
-
-Prompts provide pre-defined conversation starters:
 
 ```typescript
 // prompts/custom/my-prompt.ts
@@ -237,6 +236,16 @@ export class MyPrompt implements IPrompt {
 }
 ```
 
-## License
+## 📝 SOLID Principles Applied
 
-MIT
+| Principle | Implementation |
+|-----------|----------------|
+| **Single Responsibility** | Each class has one clear responsibility |
+| **Open/Closed** | System can be extended without modifying existing code |
+| **Liskov Substitution** | Derived types can be substituted for their base types |
+| **Interface Segregation** | Specific interfaces for specific clients |
+| **Dependency Inversion** | High-level modules depend on abstractions |
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
