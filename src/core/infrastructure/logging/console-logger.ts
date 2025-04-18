@@ -1,3 +1,4 @@
+// src/core/infrastructure/logging/console-logger.ts
 import { ILogger } from '../../domain/interfaces/logger.interface.js';
 
 export class ConsoleLogger implements ILogger {

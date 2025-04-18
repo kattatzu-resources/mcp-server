@@ -1,3 +1,4 @@
+// src/core/infrastructure/transport/sse-transport.adapter.ts
 import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js';
 import { Response } from 'express';
 import { ITransport } from '../../domain/interfaces/transport.interface.js';

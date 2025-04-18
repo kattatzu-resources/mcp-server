@@ -1,3 +1,4 @@
+// src/core/infrastructure/transport/stdio-transport.adapter.ts
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { ITransport } from '../../domain/interfaces/transport.interface.js';
 import { ILogger } from '../../domain/interfaces/logger.interface.js';

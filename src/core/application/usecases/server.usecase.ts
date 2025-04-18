@@ -1,3 +1,4 @@
+// src/core/application/usecases/server.usecase.ts
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { ILogger } from '../../domain/interfaces/logger.interface.js';
 import { ITransport } from '../../domain/interfaces/transport.interface.js';

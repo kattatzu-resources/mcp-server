@@ -1,3 +1,4 @@
+// src/core/application/services/resource.service.ts
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { ILogger } from '../../domain/interfaces/logger.interface.js';
 import { IResource } from '../../domain/interfaces/resource.interface.js';

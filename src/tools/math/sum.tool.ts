@@ -1,3 +1,4 @@
+// src/tools/math/sum.tool.ts
 import { z } from 'zod';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { ITool } from '../../core/domain/interfaces/tool.interface.js';

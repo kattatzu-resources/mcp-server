@@ -1,3 +1,4 @@
+// src/tools/index.ts
 import { ILogger } from '../core/domain/interfaces/logger.interface.js';
 import { ITool } from '../core/domain/interfaces/tool.interface.js';
 import { SumTool } from './math/sum.tool.js';

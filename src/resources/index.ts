@@ -1,3 +1,4 @@
+// src/resources/index.ts
 import { ILogger } from '../core/domain/interfaces/logger.interface.js';
 import { IResource } from '../core/domain/interfaces/resource.interface.js';
 import { GreetingResource } from './greeting.resource.js';

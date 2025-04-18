@@ -1,3 +1,4 @@
+// src/core/presentation/api/app.ts
 import express, { Express } from 'express';
 import { ServerConfig } from '../../domain/models/server-config.model.js';
 import { TransportService } from '../../application/services/transport.service.js';

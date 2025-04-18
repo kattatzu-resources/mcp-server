@@ -1,3 +1,4 @@
+// src/core/domain/models/server-config.model.ts
 import { TransportsConfig } from './transport-config.model.js';
 
 export interface ServerConfig {

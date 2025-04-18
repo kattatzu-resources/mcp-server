@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// src/index.ts
 import { createLogger } from './core/infrastructure/logging/console-logger.js';
 import { config } from './core/infrastructure/config/config.js';
 import { createTools } from './tools/index.js';

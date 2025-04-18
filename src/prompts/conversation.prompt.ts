@@ -1,3 +1,4 @@
+// src/prompts/conversation.prompt.ts
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { IPrompt } from '../core/domain/interfaces/prompt.interface.js';
 import { ILogger } from '../core/domain/interfaces/logger.interface.js';

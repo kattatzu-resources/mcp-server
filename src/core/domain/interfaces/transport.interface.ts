@@ -1,3 +1,4 @@
+// src/core/domain/interfaces/transport.interface.ts
 import { Request, Response } from 'express';
 
 export interface ITransport {

@@ -1,3 +1,4 @@
+// src/core/application/services/tool.service.ts
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { ILogger } from '../../domain/interfaces/logger.interface.js';
 import { ITool } from '../../domain/interfaces/tool.interface.js';

@@ -1,3 +1,4 @@
+// src/core/application/factories/server.factory.ts
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { ILogger } from '../../domain/interfaces/logger.interface.js';
 import { IPrompt } from '../../domain/interfaces/prompt.interface.js';

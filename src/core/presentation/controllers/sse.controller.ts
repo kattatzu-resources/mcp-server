@@ -1,3 +1,4 @@
+// src/core/presentation/controllers/sse.controller.ts
 import { Request, Response } from 'express';
 import { TransportService } from '../../application/services/transport.service.js';
 import { ILogger } from '../../domain/interfaces/logger.interface.js';

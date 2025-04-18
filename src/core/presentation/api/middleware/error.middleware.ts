@@ -1,3 +1,4 @@
+// src/core/presentation/api/middleware/error.middleware.ts
 import { Request, Response, NextFunction } from 'express';
 import { ILogger } from '../../../domain/interfaces/logger.interface.js';
 

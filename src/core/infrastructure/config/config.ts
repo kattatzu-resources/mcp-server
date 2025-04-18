@@ -1,3 +1,4 @@
+// src/core/infrastructure/config/config.ts
 import { ServerConfig } from '../../domain/models/server-config.model.js';
 import { TransportsConfig } from '../../domain/models/transport-config.model.js';
 

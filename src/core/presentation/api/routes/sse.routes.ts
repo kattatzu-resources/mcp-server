@@ -1,3 +1,4 @@
+// src/core/presentation/api/routes/sse.routes.ts
 import { Router } from 'express';
 import { SseController } from '../../controllers/sse.controller.js';
 import { ILogger } from '../../../domain/interfaces/logger.interface.js';

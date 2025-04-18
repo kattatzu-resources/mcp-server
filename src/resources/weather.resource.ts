@@ -1,3 +1,4 @@
+// src/resources/weather.resource.ts
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { IResource } from '../core/domain/interfaces/resource.interface.js';
 import { ILogger } from '../core/domain/interfaces/logger.interface.js';
