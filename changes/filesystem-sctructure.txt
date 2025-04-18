@@ -1,0 +1,55 @@
+```
+src/
+├── domain/
+│   ├── interfaces/
+│   │   ├── logger.interface.ts
+│   │   ├── prompt.interface.ts
+│   │   ├── resource.interface.ts
+│   │   ├── tool.interface.ts
+│   │   └── transport.interface.ts
+│   └── models/
+│       └── server-config.model.ts
+├── application/
+│   ├── services/
+│   │   ├── prompt.service.ts
+│   │   ├── resource.service.ts
+│   │   ├── tool.service.ts
+│   │   └── transport.service.ts
+│   ├── usecases/
+│   │   └── server.usecase.ts
+│   └── factories/
+│       └── server.factory.ts
+├── infrastructure/
+│   ├── config/
+│   │   └── config.ts
+│   ├── logging/
+│   │   └── console-logger.ts
+│   ├── mcp/
+│   │   └── mcp-server.adapter.ts
+│   ├── prompts/
+│   │   ├── index.ts
+│   │   └── conversation.prompt.ts
+│   ├── resources/
+│   │   ├── index.ts
+│   │   ├── greeting.resource.ts
+│   │   └── weather.resource.ts
+│   ├── tools/
+│   │   ├── index.ts
+│   │   ├── math/
+│   │   │   └── sum.tool.ts
+│   │   └── system/
+│   │       └── ping.tool.ts
+│   └── transport/
+│       └── sse-transport.adapter.ts
+├── presentation/
+│   ├── api/
+│   │   ├── app.ts
+│   │   ├── server.ts
+│   │   ├── middleware/
+│   │   │   └── error.middleware.ts
+│   │   └── routes/
+│   │       └── sse.routes.ts
+│   └── controllers/
+│       └── sse.controller.ts
+└── index.ts
+```

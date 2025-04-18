@@ -1,55 +1,71 @@
 #!/usr/bin/env node
-import { createLogger } from "./utils/logger.js";
-import { McpServerCore } from "./core/server.js";
-import { McpServerCapabilities } from "./core/capabilities.js";
-import { TransportManager } from "./core/transport-manager.js";
-import { createExpressApp, startServer } from "./api/api.js";
-
-const logger = createLogger("Main");
+import { createLogger } from "./infrastructure/logging/console-logger.js";
+import { config } from "./infrastructure/config/config.js";
+import { createTools } from "./infrastructure/tools/index.js";
+import { createResources } from "./infrastructure/resources/index.js";
+import { createPrompts } from "./infrastructure/prompts/index.js";
+import { ServerFactory } from "./application/factories/server.factory.js";
+import { SseTransportFactory } from "./infrastructure/transport/sse-transport.adapter.js";
+import { ExpressApp } from "./presentation/api/app.js";
+import { HttpServer } from "./presentation/api/server.js";
 
 /**
  * Main application entry point
  */
 async function main() {
+    const mainLogger = createLogger("Main");
+
     try {
-        logger.info("Starting MCP SSE Server...");
+        mainLogger.info("Starting MCP SSE Server...");
 
-        // Create server capabilities
-        const capabilities = new McpServerCapabilities(null as any); // Will be set after server creation
+        // Create logger instances for each component
+        const toolsLogger = createLogger("Tools");
+        const resourcesLogger = createLogger("Resources");
+        const promptsLogger = createLogger("Prompts");
+        const transportLogger = createLogger("Transport");
+        const serverLogger = createLogger("Server");
 
-        // Create MCP server
-        const mcpServer = new McpServerCore(capabilities);
+        // Create core components
+        const tools = createTools(toolsLogger);
+        const resources = createResources(resourcesLogger);
+        const prompts = createPrompts(promptsLogger);
 
-        // Set the server in capabilities
-        (capabilities as any).server = mcpServer.getServer();
+        // Create transport factory
+        const transportFactory = new SseTransportFactory(transportLogger);
 
-        // Initialize the server with all capabilities
-        mcpServer.initialize();
+        // Create server factory
+        const serverFactory = new ServerFactory(
+            config,
+            serverLogger,
+            tools,
+            resources,
+            prompts,
+            transportFactory.createTransport.bind(transportFactory)
+        );
 
-        // Create transport manager
-        const transportManager = new TransportManager(mcpServer);
+        // Create server and transport service
+        const { serverUseCase, transportService } = serverFactory.createServer();
+
+        // Initialize MCP server with all capabilities
+        serverUseCase.initialize();
 
         // Create and start Express app
-        const app = createExpressApp(transportManager);
-        startServer(app);
+        const apiLogger = createLogger("API");
+        const expressApp = new ExpressApp(config, transportService, apiLogger);
+        const httpServer = new HttpServer(
+            expressApp.getApp(),
+            config,
+            apiLogger,
+            transportService,
+            serverUseCase
+        );
 
-        // Handle server shutdown
-        process.on("SIGINT", async () => {
-            logger.info("Shutting down server...");
+        // Start HTTP server
+        httpServer.start();
 
-            // Close all active transports
-            await transportManager.closeAllTransports();
-
-            // Close MCP server
-            await mcpServer.close();
-
-            logger.info("Server shutdown complete");
-            process.exit(0);
-        });
-
-        logger.info("MCP SSE Server started successfully");
+        mainLogger.info("MCP SSE Server started successfully");
     } catch (error) {
-        logger.error("Fatal error in main():", error);
+        mainLogger.error("Fatal error in main():", error);
         process.exit(1);
     }
 }

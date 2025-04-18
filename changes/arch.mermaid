@@ -1,0 +1,59 @@
+graph TB
+    subgraph "Capa de Presentación"
+        API[API Express]
+        SSE[SSE Controllers]
+    end
+    
+    subgraph "Capa de Aplicación"
+        McpServer[MCP Server]
+        TransportManager[Transport Manager]
+        ToolsService[Tools Service]
+        ResourcesService[Resources Service]
+        PromptsService[Prompts Service]
+    end
+    
+    subgraph "Capa de Dominio"
+        ITool[ITool Interface]
+        IResource[IResource Interface]
+        IPrompt[IPrompt Interface] 
+        ITransport[ITransport Interface]
+        ILogger[ILogger Interface]
+    end
+    
+    subgraph "Capa de Infraestructura"
+        ToolsImpl[Tools Implementation]
+        ResourcesImpl[Resources Implementation]
+        PromptsImpl[Prompts Implementation]
+        SSETransport[SSE Transport]
+        LoggerImpl[Logger Implementation]
+        Config[Configuration]
+    end
+    
+    API --> McpServer
+    API --> TransportManager
+    SSE --> TransportManager
+    
+    McpServer --> ToolsService
+    McpServer --> ResourcesService
+    McpServer --> PromptsService
+    TransportManager --> ITransport
+    
+    ToolsService --> ITool
+    ResourcesService --> IResource
+    PromptsService --> IPrompt
+    
+    ToolsImpl --> ITool
+    ResourcesImpl --> IResource
+    PromptsImpl --> IPrompt
+    SSETransport --> ITransport
+    LoggerImpl --> ILogger
+    
+    ToolsService --> ILogger
+    ResourcesService --> ILogger
+    PromptsService --> ILogger
+    McpServer --> ILogger
+    TransportManager --> ILogger
+    
+    Config -.-> API
+    Config -.-> McpServer
+    Config -.-> TransportManager
