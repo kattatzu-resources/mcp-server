@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+.git
+.env
+*.md
+.github/
+.idea/
+build/
+test/
+coverage/
+docker/
