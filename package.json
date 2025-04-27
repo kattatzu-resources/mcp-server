@@ -1,5 +1,5 @@
 {
-  "name": "mcp-sse-server",
+  "name": "mcp-server",
   "version": "1.0.0",
   "main": "build/index.js",
   "license": "MIT",
@@ -15,7 +15,7 @@
     "test": "jest",
     "rebuild": "yarn build && yarn start",
     "format": "prettier --write \"src/**/*.ts\"",
-    "structure": "tree -L 3 > structure.txt"
+    "structure": "tree -L 10 -I node_modules -I build > structure_temp.txt && node -e \"const fs = require('fs'); const content = fs.readFileSync('structure_temp.txt', 'utf8').replace(/\\u00A0/g, ' '); fs.writeFileSync('structure.txt', content); fs.unlinkSync('structure_temp.txt');\""
   },
   "files": [
     "build"
