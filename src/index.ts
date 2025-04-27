@@ -1,16 +1,15 @@
 // src/index.ts
 import { createLogger } from './core/infrastructure/logging/console-logger.js';
-import { config } from './core/infrastructure/config/config.js';
 import { createTools } from './tools/index.js';
-import { createResources } from './resources/index.js';
-import { createPrompts } from './prompts/index.js';
 import { ServerFactory } from './core/application/factories/server.factory.js';
 import { SseTransportFactory } from './core/infrastructure/transport/sse-transport.adapter.js';
 import { StdioTransportFactory } from './core/infrastructure/transport/stdio-transport.adapter.js';
 import { ExpressApp } from './core/presentation/api/app.js';
 import { HttpServer } from './core/presentation/api/server.js';
+import { config as dotEnvConfig } from 'dotenv';
+import { config } from './core/infrastructure/config/config.js';
 
-require('dotenv').config()
+dotEnvConfig();
 
 /**
  * Main application entry point
@@ -24,19 +23,15 @@ async function main() {
   const mainLogger = createLogger('Main');
 
   try {
-    mainLogger.info('Starting MCP Server...');
+    mainLogger.info('Starting Buda MCP Server...');
 
     // Create logger instances for each component
     const toolsLogger = createLogger('Tools');
-    const resourcesLogger = createLogger('Resources');
-    const promptsLogger = createLogger('Prompts');
     const transportLogger = createLogger('Transport');
     const serverLogger = createLogger('Server');
 
     // Create core components
     const tools = createTools(toolsLogger);
-    const resources = createResources(resourcesLogger);
-    const prompts = createPrompts(promptsLogger);
 
     // Create transport factories based on configuration
     const transportFactories: {
@@ -59,8 +54,8 @@ async function main() {
       config,
       serverLogger,
       tools,
-      resources,
-      prompts,
+      [],
+      [],
       transportFactories,
     );
 
